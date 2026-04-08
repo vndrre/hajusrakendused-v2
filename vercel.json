@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "functions": {
+    "api/*.php": {
+      "runtime": "vercel-php@0.8.0"
+    }
+  },
+  "outputDirectory": "public",
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/[...route].php" },
+    { "src": "/", "dest": "/api/index.php" },
+    { "src": "/index\\.php", "dest": "/api/index.php" },
+    { "src": "/(.*\\.php)", "dest": "/api/index.php" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
+  ]
+}
+
