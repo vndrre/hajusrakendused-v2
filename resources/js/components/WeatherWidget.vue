@@ -154,7 +154,7 @@
                 weather.value = isWeatherData(cached) ? cached : null;
 
                 if (!weather.value) {
-                    error.value = 'Ilmaandmete hankimine ebaõnnestus';
+                    error.value = 'Weather data fetching failed';
                 }
 
                 return;
@@ -168,7 +168,7 @@
             if (weather.value) {
                 saveWeatherToCache(cacheKey, weather.value);
             } else {
-                error.value = 'Ilmaandmete hankimine ebaõnnestus';
+                error.value = 'Weather data fetching failed';
             }
         } catch (err) {
             console.error(err);
@@ -189,7 +189,7 @@
                 // ignore
             }
 
-            error.value = 'Ilmaandmete hankimine ebaõnnestus';
+            error.value = 'Weather data fetching failed';
         } finally {
             loading.value = false;
         }
