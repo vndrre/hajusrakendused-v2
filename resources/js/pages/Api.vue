@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { index as booksIndexRoute, store as booksStoreRoute } from '@/routes/books/api';
 import type { BreadcrumbItem } from '@/types';
 
 interface User {
@@ -108,7 +109,7 @@ const fetchBooks = async (): Promise<void> => {
     }
 
     try {
-        const response = await axios.get('/api/books', {
+        const response = await axios.get(booksIndexRoute.url(), {
             params: filterParams.value,
         });
 
@@ -223,7 +224,7 @@ const submitCreate = async (): Promise<void> => {
             formData.append('image', createForm.imageFile);
         }
 
-        await axios.post('/api/books', formData, {
+        await axios.post(booksStoreRoute.url(), formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
