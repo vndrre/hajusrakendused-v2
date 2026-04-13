@@ -23,6 +23,23 @@ interface Book {
     user?: User;
 }
 
+interface ExternalMovie {
+    id: number;
+    title: string;
+    image: string;
+    description: string;
+    director: string;
+    release_year: number;
+    genre: string;
+    rating: number;
+}
+
+interface MoviesApiResponse {
+    success: boolean;
+    count: number;
+    data: ExternalMovie[];
+}
+
 const props = defineProps<{
     authUser: User | null;
 }>();
@@ -174,6 +191,10 @@ const createImagePreviewUrl = computed(() => {
 const createSubmitting = ref(false);
 const createErrorMessage = ref<string | null>(null);
 const createErrors = reactive<Record<string, string>>({});
+const externalMovies = ref<ExternalMovie[]>([]);
+const externalMoviesCount = ref(0);
+const externalMoviesLoading = ref(false);
+const externalMoviesError = ref<string | null>(null);
 
 const resetCreateErrors = (): void => {
     createErrorMessage.value = null;
@@ -216,6 +237,24 @@ const submitCreate = async (): Promise<void> => {
         }
     } finally {
         createSubmitting.value = false;
+    }
+};
+
+const fetchExternalMovies = async (): Promise<void> => {
+    externalMoviesLoading.value = true;
+    externalMoviesError.value = null;
+
+    try {
+        const response = await axios.get<MoviesApiResponse>('https://ralfiharjutus.ta24siim.itmajakas.ee/api/movies');
+        const payload = response.data;
+
+        externalMovies.value = Array.isArray(payload?.data) ? payload.data : [];
+        externalMoviesCount.value = Number(payload?.count ?? externalMovies.value.length);
+    } catch (error) {
+        console.error(error);
+        externalMoviesError.value = 'Failed to fetch external API data.';
+    } finally {
+        externalMoviesLoading.value = false;
     }
 };
 
@@ -524,6 +563,66 @@ onMounted(() => {
                         </div>
                     </article>
                 </div>
+            </section>
+
+            <section class="rounded-xl border border-zinc-200 bg-white p-3 shadow-none dark:border-zinc-800 dark:bg-zinc-950">
+                <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">External Movies API</h3>
+                        <p class="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
+                            Fetches data from a public movies JSON API.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        :disabled="externalMoviesLoading"
+                        @click="fetchExternalMovies()"
+                        class="rounded-lg bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                    >
+                        {{ externalMoviesLoading ? 'Fetching...' : 'Fetch API data' }}
+                    </button>
+                </div>
+
+                <div
+                    v-if="externalMoviesError"
+                    class="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/40 dark:text-red-300"
+                >
+                    {{ externalMoviesError }}
+                </div>
+
+                <div v-else-if="externalMovies.length === 0" class="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-5 text-center text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                    No external data loaded yet.
+                </div>
+
+                <div v-else class="grid gap-3 md:grid-cols-2">
+                    <article
+                        v-for="movie in externalMovies"
+                        :key="movie.id"
+                        class="rounded-lg border border-zinc-200 bg-zinc-50 p-3 shadow-none dark:border-zinc-800 dark:bg-zinc-900"
+                    >
+                        <img
+                            :src="movie.image || bookImagePlaceholder"
+                            :alt="movie.title"
+                            class="mb-2 h-40 w-full rounded-lg object-cover"
+                        />
+
+                        <div class="mb-1 text-sm font-semibold text-zinc-900 dark:text-white">
+                            {{ movie.title }}
+                        </div>
+                        <div class="mb-1 text-xs text-zinc-500 dark:text-zinc-400">
+                            {{ movie.director }} • {{ movie.release_year }} • {{ movie.genre }}
+                        </div>
+                        <div class="mb-2 text-xs font-medium text-zinc-600 dark:text-zinc-300">Rating: {{ movie.rating }}</div>
+                        <p class="line-clamp-3 text-sm text-zinc-700 dark:text-zinc-200">
+                            {{ movie.description }}
+                        </p>
+                    </article>
+                </div>
+
+                <p v-if="externalMovies.length > 0" class="mt-2 text-xs text-zinc-600 dark:text-zinc-400">
+                    Loaded {{ externalMovies.length }}/{{ externalMoviesCount }} movies.
+                </p>
             </section>
         </div>
     </AppLayout>
