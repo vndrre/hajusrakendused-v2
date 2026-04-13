@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\BooksController::page
 * @see app/Http/Controllers/BooksController.php:18
@@ -42,6 +42,43 @@ page.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: page.url(options),
     method: 'head',
 })
+
+/**
+* @see \App\Http\Controllers\BooksController::page
+* @see app/Http/Controllers/BooksController.php:18
+* @route '/api'
+*/
+const pageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: page.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\BooksController::page
+* @see app/Http/Controllers/BooksController.php:18
+* @route '/api'
+*/
+pageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: page.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\BooksController::page
+* @see app/Http/Controllers/BooksController.php:18
+* @route '/api'
+*/
+pageForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: page.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+page.form = pageForm
 
 const api = {
     page: Object.assign(page, page),

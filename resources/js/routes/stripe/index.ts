@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
 * @see app/Http/Controllers/StripeCheckoutController.php:13
@@ -32,6 +32,28 @@ checkoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'post'> =>
     url: checkoutSession.url(options),
     method: 'post',
 })
+
+/**
+* @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
+* @see app/Http/Controllers/StripeCheckoutController.php:13
+* @route '/stripe/checkout-session'
+*/
+const checkoutSessionForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: checkoutSession.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
+* @see app/Http/Controllers/StripeCheckoutController.php:13
+* @route '/stripe/checkout-session'
+*/
+checkoutSessionForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: checkoutSession.url(options),
+    method: 'post',
+})
+
+checkoutSession.form = checkoutSessionForm
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
@@ -76,6 +98,43 @@ checkoutSessionStatus.head = (options?: RouteQueryOptions): RouteDefinition<'hea
     url: checkoutSessionStatus.url(options),
     method: 'head',
 })
+
+/**
+* @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
+* @see app/Http/Controllers/StripeCheckoutController.php:114
+* @route '/stripe/checkout-session-status'
+*/
+const checkoutSessionStatusForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: checkoutSessionStatus.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
+* @see app/Http/Controllers/StripeCheckoutController.php:114
+* @route '/stripe/checkout-session-status'
+*/
+checkoutSessionStatusForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: checkoutSessionStatus.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
+* @see app/Http/Controllers/StripeCheckoutController.php:114
+* @route '/stripe/checkout-session-status'
+*/
+checkoutSessionStatusForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: checkoutSessionStatus.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+checkoutSessionStatus.form = checkoutSessionStatusForm
 
 const stripe = {
     checkoutSession: Object.assign(checkoutSession, checkoutSession),

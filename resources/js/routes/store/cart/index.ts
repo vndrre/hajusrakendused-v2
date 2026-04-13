@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\StoreController::index
 * @see app/Http/Controllers/StoreController.php:30
@@ -44,6 +44,43 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
+* @see \App\Http\Controllers\StoreController::index
+* @see app/Http/Controllers/StoreController.php:30
+* @route '/store/cart'
+*/
+const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\StoreController::index
+* @see app/Http/Controllers/StoreController.php:30
+* @route '/store/cart'
+*/
+indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\StoreController::index
+* @see app/Http/Controllers/StoreController.php:30
+* @route '/store/cart'
+*/
+indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+index.form = indexForm
+
+/**
 * @see \App\Http\Controllers\StoreController::sync
 * @see app/Http/Controllers/StoreController.php:37
 * @route '/store/cart'
@@ -76,6 +113,38 @@ sync.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: sync.url(options),
     method: 'put',
 })
+
+/**
+* @see \App\Http\Controllers\StoreController::sync
+* @see app/Http/Controllers/StoreController.php:37
+* @route '/store/cart'
+*/
+const syncForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: sync.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'PUT',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\StoreController::sync
+* @see app/Http/Controllers/StoreController.php:37
+* @route '/store/cart'
+*/
+syncForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: sync.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'PUT',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+sync.form = syncForm
 
 const cart = {
     index: Object.assign(index, index),

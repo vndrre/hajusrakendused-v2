@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\MarkerController::index
 * @see app/Http/Controllers/MarkerController.php:12
@@ -42,6 +42,43 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: index.url(options),
     method: 'head',
 })
+
+/**
+* @see \App\Http\Controllers\MarkerController::index
+* @see app/Http/Controllers/MarkerController.php:12
+* @route '/map'
+*/
+const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::index
+* @see app/Http/Controllers/MarkerController.php:12
+* @route '/map'
+*/
+indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::index
+* @see app/Http/Controllers/MarkerController.php:12
+* @route '/map'
+*/
+indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: index.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+index.form = indexForm
 
 /**
 * @see \App\Http\Controllers\MarkerController::apiIndex
@@ -88,6 +125,43 @@ apiIndex.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
+* @see \App\Http\Controllers\MarkerController::apiIndex
+* @see app/Http/Controllers/MarkerController.php:29
+* @route '/markers'
+*/
+const apiIndexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: apiIndex.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::apiIndex
+* @see app/Http/Controllers/MarkerController.php:29
+* @route '/markers'
+*/
+apiIndexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: apiIndex.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::apiIndex
+* @see app/Http/Controllers/MarkerController.php:29
+* @route '/markers'
+*/
+apiIndexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: apiIndex.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+apiIndex.form = apiIndexForm
+
+/**
 * @see \App\Http\Controllers\MarkerController::store
 * @see app/Http/Controllers/MarkerController.php:40
 * @route '/markers'
@@ -120,6 +194,28 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: store.url(options),
     method: 'post',
 })
+
+/**
+* @see \App\Http\Controllers\MarkerController::store
+* @see app/Http/Controllers/MarkerController.php:40
+* @route '/markers'
+*/
+const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: store.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::store
+* @see app/Http/Controllers/MarkerController.php:40
+* @route '/markers'
+*/
+storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: store.url(options),
+    method: 'post',
+})
+
+store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\MarkerController::show
@@ -190,6 +286,43 @@ show.head = (args: { marker: string | number | { id: string | number } } | [mark
 })
 
 /**
+* @see \App\Http\Controllers\MarkerController::show
+* @see app/Http/Controllers/MarkerController.php:65
+* @route '/markers/{marker}'
+*/
+const showForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::show
+* @see app/Http/Controllers/MarkerController.php:65
+* @route '/markers/{marker}'
+*/
+showForm.get = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::show
+* @see app/Http/Controllers/MarkerController.php:65
+* @route '/markers/{marker}'
+*/
+showForm.head = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+show.form = showForm
+
+/**
 * @see \App\Http\Controllers\MarkerController::update
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
@@ -248,6 +381,38 @@ update.put = (args: { marker: string | number | { id: string | number } } | [mar
 })
 
 /**
+* @see \App\Http\Controllers\MarkerController::update
+* @see app/Http/Controllers/MarkerController.php:76
+* @route '/markers/{marker}'
+*/
+const updateForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: update.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'PUT',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::update
+* @see app/Http/Controllers/MarkerController.php:76
+* @route '/markers/{marker}'
+*/
+updateForm.put = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: update.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'PUT',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+update.form = updateForm
+
+/**
 * @see \App\Http\Controllers\MarkerController::destroy
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
@@ -304,6 +469,38 @@ destroy.delete = (args: { marker: string | number | { id: string | number } } | 
     url: destroy.url(args, options),
     method: 'delete',
 })
+
+/**
+* @see \App\Http\Controllers\MarkerController::destroy
+* @see app/Http/Controllers/MarkerController.php:102
+* @route '/markers/{marker}'
+*/
+const destroyForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: destroy.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'DELETE',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\MarkerController::destroy
+* @see app/Http/Controllers/MarkerController.php:102
+* @route '/markers/{marker}'
+*/
+destroyForm.delete = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: destroy.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'DELETE',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'post',
+})
+
+destroy.form = destroyForm
 
 const MarkerController = { index, apiIndex, store, show, update, destroy }
 

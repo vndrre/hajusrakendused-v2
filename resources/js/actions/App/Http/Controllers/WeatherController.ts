@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\WeatherController::show
 * @see app/Http/Controllers/WeatherController.php:16
@@ -42,6 +42,43 @@ show.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(options),
     method: 'head',
 })
+
+/**
+* @see \App\Http\Controllers\WeatherController::show
+* @see app/Http/Controllers/WeatherController.php:16
+* @route '/weather'
+*/
+const showForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\WeatherController::show
+* @see app/Http/Controllers/WeatherController.php:16
+* @route '/weather'
+*/
+showForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\WeatherController::show
+* @see app/Http/Controllers/WeatherController.php:16
+* @route '/weather'
+*/
+showForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: show.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+show.form = showForm
 
 /**
 * @see \App\Http\Controllers\WeatherController::api
@@ -88,6 +125,43 @@ api.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
+* @see \App\Http\Controllers\WeatherController::api
+* @see app/Http/Controllers/WeatherController.php:40
+* @route '/weather/data'
+*/
+const apiForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: api.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\WeatherController::api
+* @see app/Http/Controllers/WeatherController.php:40
+* @route '/weather/data'
+*/
+apiForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: api.url(options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\WeatherController::api
+* @see app/Http/Controllers/WeatherController.php:40
+* @route '/weather/data'
+*/
+apiForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: api.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+api.form = apiForm
+
+/**
 * @see \App\Http\Controllers\WeatherController::selection
 * @see app/Http/Controllers/WeatherController.php:68
 * @route '/weather/selection'
@@ -120,6 +194,28 @@ selection.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: selection.url(options),
     method: 'post',
 })
+
+/**
+* @see \App\Http\Controllers\WeatherController::selection
+* @see app/Http/Controllers/WeatherController.php:68
+* @route '/weather/selection'
+*/
+const selectionForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: selection.url(options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\WeatherController::selection
+* @see app/Http/Controllers/WeatherController.php:68
+* @route '/weather/selection'
+*/
+selectionForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: selection.url(options),
+    method: 'post',
+})
+
+selection.form = selectionForm
 
 const WeatherController = { show, api, selection }
 
