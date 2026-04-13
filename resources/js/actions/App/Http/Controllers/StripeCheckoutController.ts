@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:12
+* @see app/Http/Controllers/StripeCheckoutController.php:13
 * @route '/api/stripe/checkout-session'
 */
 export const createCheckoutSession = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ createCheckoutSession.definition = {
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:12
+* @see app/Http/Controllers/StripeCheckoutController.php:13
 * @route '/api/stripe/checkout-session'
 */
 createCheckoutSession.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ createCheckoutSession.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:12
+* @see app/Http/Controllers/StripeCheckoutController.php:13
 * @route '/api/stripe/checkout-session'
 */
 createCheckoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -35,7 +35,7 @@ createCheckoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'pos
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:12
+* @see app/Http/Controllers/StripeCheckoutController.php:13
 * @route '/api/stripe/checkout-session'
 */
 const createCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -45,7 +45,7 @@ const createCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefini
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:12
+* @see app/Http/Controllers/StripeCheckoutController.php:13
 * @route '/api/stripe/checkout-session'
 */
 createCheckoutSessionForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -57,7 +57,7 @@ createCheckoutSession.form = createCheckoutSessionForm
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 export const verifyCheckoutSession = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -72,7 +72,7 @@ verifyCheckoutSession.definition = {
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 verifyCheckoutSession.url = (options?: RouteQueryOptions) => {
@@ -81,7 +81,7 @@ verifyCheckoutSession.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 verifyCheckoutSession.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -91,7 +91,7 @@ verifyCheckoutSession.get = (options?: RouteQueryOptions): RouteDefinition<'get'
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 verifyCheckoutSession.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -101,7 +101,7 @@ verifyCheckoutSession.head = (options?: RouteQueryOptions): RouteDefinition<'hea
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 const verifyCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -111,7 +111,7 @@ const verifyCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefini
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 verifyCheckoutSessionForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -121,7 +121,7 @@ verifyCheckoutSessionForm.get = (options?: RouteQueryOptions): RouteFormDefiniti
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:122
+* @see app/Http/Controllers/StripeCheckoutController.php:114
 * @route '/api/stripe/checkout-session-status'
 */
 verifyCheckoutSessionForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

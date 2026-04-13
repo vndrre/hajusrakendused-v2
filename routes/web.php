@@ -22,6 +22,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('api/weather/selection', [WeatherController::class, 'selection'])->name('weather.selection');
     Route::get('map', [MarkerController::class, 'index'])->name('map.index');
     Route::get('store', [StoreController::class, 'index'])->name('store.index');
+    Route::get('api/store/cart', [StoreController::class, 'cartIndex'])->name('store.cart.index');
+    Route::put('api/store/cart', [StoreController::class, 'cartSync'])->name('store.cart.sync');
 
     Route::get('api', [BooksController::class, 'apiPage'])->name('api.page');
     Route::get('api/books', [BooksController::class, 'apiIndex'])->name('books.api.index');

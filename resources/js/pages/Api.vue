@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { index as booksIndexRoute, store as booksStoreRoute } from '@/routes/books/api';
 import type { BreadcrumbItem } from '@/types';
@@ -159,43 +159,16 @@ const isMine = (book: Book): boolean => {
 
 const createForm = reactive({
     title: '',
-    imageFile: null as File | null,
+    image: '',
     description: '',
     author: '',
     publication_year: new Date().getFullYear() as number,
 });
 
-const createImagePreviewUrl = ref(bookImagePlaceholder.value);
-const imageObjectUrl = ref<string | null>(null);
+const createImagePreviewUrl = computed(() => {
+    const imageUrl = createForm.image.trim();
 
-const setCreateImageFile = (file: File | null): void => {
-    if (imageObjectUrl.value) {
-        URL.revokeObjectURL(imageObjectUrl.value);
-        imageObjectUrl.value = null;
-    }
-
-    createForm.imageFile = file;
-
-    if (!file) {
-        createImagePreviewUrl.value = bookImagePlaceholder.value;
-        return;
-    }
-
-    imageObjectUrl.value = URL.createObjectURL(file);
-    createImagePreviewUrl.value = imageObjectUrl.value;
-};
-
-const handleCreateImageChange = (event: Event): void => {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-    setCreateImageFile(file);
-};
-
-onBeforeUnmount(() => {
-    if (imageObjectUrl.value) {
-        URL.revokeObjectURL(imageObjectUrl.value);
-        imageObjectUrl.value = null;
-    }
+    return imageUrl !== '' ? imageUrl : bookImagePlaceholder.value;
 });
 
 const createSubmitting = ref(false);
@@ -214,25 +187,17 @@ const submitCreate = async (): Promise<void> => {
     resetCreateErrors();
 
     try {
-        const formData = new FormData();
-        formData.append('title', createForm.title);
-        formData.append('author', createForm.author);
-        formData.append('description', createForm.description);
-        formData.append('publication_year', String(createForm.publication_year));
-
-        if (createForm.imageFile) {
-            formData.append('image', createForm.imageFile);
-        }
-
-        await axios.post(booksStoreRoute.url(), formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        await axios.post(booksStoreRoute.url(), {
+            title: createForm.title,
+            image: createForm.image,
+            author: createForm.author,
+            description: createForm.description,
+            publication_year: createForm.publication_year,
         });
 
         // Keep current filter, but reload the list so it reflects the newly created item.
         createForm.title = '';
-        setCreateImageFile(null);
+        createForm.image = '';
         createForm.description = '';
         createForm.author = '';
         createForm.publication_year = new Date().getFullYear();
@@ -307,10 +272,10 @@ onMounted(() => {
 
                             <div>
                                 <input
-                                    type="file"
-                                    accept="image/*"
+                                    v-model="createForm.image"
+                                    type="url"
+                                    placeholder="https://example.com/image.jpg"
                                     class="w-full rounded-lg border border-zinc-300 bg-white px-2 py-1.5 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
-                                    @change="handleCreateImageChange"
                                 />
                                 <p v-if="createErrors.image" class="mt-1 text-xs text-red-600 dark:text-red-400">{{ createErrors.image }}</p>
 
@@ -321,7 +286,7 @@ onMounted(() => {
                                         class="h-24 w-full object-cover"
                                     />
                                 </div>
-                                <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Upload JPG/PNG/WebP.</p>
+                                <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Paste a public image URL.</p>
                             </div>
 
                             <div>

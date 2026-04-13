@@ -15,7 +15,7 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'image' => ['required', 'string', 'url', 'max:2048'],
             'description' => ['required', 'string'],
             'author' => ['required', 'string', 'max:255'],
             'publication_year' => ['required', 'integer', 'min:1000', 'max:3000'],

@@ -105,3 +105,45 @@ it('returns an error when Stripe secret key is missing', function (): void {
     ])->assertStatus(500)
         ->assertJsonFragment(['message' => 'Stripe is not configured (missing STRIPE_SECRET_KEY).']);
 });
+
+it('rejects checkout with invalid customer email', function (): void {
+    $user = User::factory()->create();
+    $product = Product::factory()->create();
+
+    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+        'customer' => [
+            'firstName' => 'Test',
+            'lastName' => 'Customer',
+            'email' => 'not-an-email',
+            'phone' => '+372 5555 5555',
+        ],
+        'items' => [
+            [
+                'productId' => $product->id,
+                'quantity' => 1,
+            ],
+        ],
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['customer.email']);
+});
+
+it('rejects checkout with invalid customer phone', function (): void {
+    $user = User::factory()->create();
+    $product = Product::factory()->create();
+
+    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+        'customer' => [
+            'firstName' => 'Test',
+            'lastName' => 'Customer',
+            'email' => 'customer@example.com',
+            'phone' => 'abc',
+        ],
+        'items' => [
+            [
+                'productId' => $product->id,
+                'quantity' => 1,
+            ],
+        ],
+    ])->assertUnprocessable()
+        ->assertJsonValidationErrors(['customer.phone']);
+});

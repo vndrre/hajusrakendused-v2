@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::index
-* @see app/Http/Controllers/BooksController.php:26
+* @see app/Http/Controllers/BooksController.php:27
 * @route '/api/books'
 */
 indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -82,7 +82,7 @@ index.form = indexForm
 
 /**
 * @see \App\Http\Controllers\BooksController::store
-* @see app/Http/Controllers/BooksController.php:125
+* @see app/Http/Controllers/BooksController.php:128
 * @route '/api/books'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -97,7 +97,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\BooksController::store
-* @see app/Http/Controllers/BooksController.php:125
+* @see app/Http/Controllers/BooksController.php:128
 * @route '/api/books'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -106,7 +106,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\BooksController::store
-* @see app/Http/Controllers/BooksController.php:125
+* @see app/Http/Controllers/BooksController.php:128
 * @route '/api/books'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -116,7 +116,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::store
-* @see app/Http/Controllers/BooksController.php:125
+* @see app/Http/Controllers/BooksController.php:128
 * @route '/api/books'
 */
 const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -126,7 +126,7 @@ const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 
 /**
 * @see \App\Http\Controllers\BooksController::store
-* @see app/Http/Controllers/BooksController.php:125
+* @see app/Http/Controllers/BooksController.php:128
 * @route '/api/books'
 */
 storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -34,9 +35,10 @@ class BooksController extends Controller
             null => false,
             default => false,
         };
-        $query = (string) ($validated['q'] ?? '');
+        $query = trim((string) ($validated['q'] ?? ''));
         $queryNormalized = function_exists('mb_strtolower') ? mb_strtolower($query, 'UTF-8') : strtolower($query);
-        $author = (string) ($validated['author'] ?? '');
+        $author = trim((string) ($validated['author'] ?? ''));
+        $authorNormalized = function_exists('mb_strtolower') ? mb_strtolower($author, 'UTF-8') : strtolower($author);
         $publicationYear = $validated['publication_year'] ?? null;
         $limit = (int) ($validated['limit'] ?? 20);
 
@@ -54,7 +56,7 @@ class BooksController extends Controller
         $cacheParams = [
             'mine' => $mine,
             'q' => $query,
-            'author' => $author,
+            'author' => $authorNormalized,
             'publication_year' => $publicationYear,
             'sort' => $sortColumn,
             'direction' => $direction,
@@ -71,7 +73,7 @@ class BooksController extends Controller
             $request,
             $mine,
             $queryNormalized,
-            $author,
+            $authorNormalized,
             $publicationYear,
             $limit,
             $sortColumn,
@@ -80,7 +82,7 @@ class BooksController extends Controller
             $baseQuery = MyFavoriteSubject::query()
                 ->with(['user:id,name'])
                 ->when($mine, fn ($q) => $q->where('user_id', $request->user()->id))
-                ->when($author !== '', fn ($q) => $q->where('author', 'like', '%'.$author.'%'))
+                ->when($authorNormalized !== '', fn ($q) => $q->whereRaw('LOWER(author) LIKE ?', ['%'.$authorNormalized.'%']))
                 ->when($publicationYear !== null, fn ($q) => $q->where('publication_year', $publicationYear))
                 ->when($queryNormalized !== '', function ($q) use ($queryNormalized) {
                     $likePattern = '%'.$queryNormalized.'%';
@@ -106,7 +108,8 @@ class BooksController extends Controller
                     'publication_year',
                     'created_at',
                 ])
-                ->toArray();
+                ->map(fn (MyFavoriteSubject $book): array => $this->serializeBook($book))
+                ->all();
 
             return [
                 'data' => $books,
@@ -126,20 +129,47 @@ class BooksController extends Controller
     {
         $validated = $request->validated();
 
-        /** @var \Illuminate\Http\UploadedFile $uploadedImage */
-        $uploadedImage = $validated['image'];
-        $imagePath = $uploadedImage->store('books', 'public');
-        $imageUrl = Storage::disk('public')->url($imagePath);
-
         $book = MyFavoriteSubject::query()->create([
             'user_id' => $request->user()->id,
             'title' => $validated['title'],
-            'image' => $imageUrl,
+            'image' => trim($validated['image']),
             'description' => $validated['description'],
             'author' => $validated['author'],
             'publication_year' => $validated['publication_year'],
-        ]);
+        ])->load(['user:id,name']);
 
-        return response()->json($book->load(['user:id,name']), 201);
+        return response()->json($this->serializeBook($book), 201);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function serializeBook(MyFavoriteSubject $book): array
+    {
+        $bookPayload = $book->toArray();
+        $bookPayload['image'] = $this->resolveImageUrl((string) ($bookPayload['image'] ?? ''));
+
+        return $bookPayload;
+    }
+
+    private function resolveImageUrl(string $image): string
+    {
+        if ($image === '') {
+            return $image;
+        }
+
+        if (filter_var($image, FILTER_VALIDATE_URL) !== false) {
+            $parsed = parse_url($image);
+            $host = $parsed['host'] ?? null;
+            $path = $parsed['path'] ?? '';
+
+            if (in_array($host, ['localhost', '127.0.0.1'], true) && Str::startsWith($path, '/storage/')) {
+                return Storage::disk('public')->url(Str::after($path, '/storage/'));
+            }
+
+            return $image;
+        }
+
+        return Storage::disk('public')->url(ltrim($image, '/'));
     }
 }

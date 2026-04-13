@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 export const page = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ page.definition = {
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 page.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ page.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 page.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ page.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 page.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ page.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 const pageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const pageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 pageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ pageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\BooksController::page
-* @see app/Http/Controllers/BooksController.php:17
+* @see app/Http/Controllers/BooksController.php:18
 * @route '/api'
 */
 pageForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

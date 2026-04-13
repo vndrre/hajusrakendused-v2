@@ -3,9 +3,7 @@
 use App\Models\MyFavoriteSubject;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -13,18 +11,15 @@ test('can create a book via JSON API', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
 
-    Storage::fake('public');
-    $bookImage = UploadedFile::fake()->image('dune.jpg', 600, 380);
-
     $bookData = [
         'title' => 'Dune',
-        'image' => $bookImage,
+        'image' => 'https://picsum.photos/seed/dune/600/380',
         'description' => 'A science fiction novel.',
         'author' => 'Frank Herbert',
         'publication_year' => 1965,
     ];
 
-    $response = $this->post('/api/books', $bookData);
+    $response = $this->postJson('/api/books', $bookData);
     $created = $response->json();
 
     $response->assertStatus(201)
@@ -34,10 +29,12 @@ test('can create a book via JSON API', function (): void {
             'publication_year' => $bookData['publication_year'],
         ]);
 
+    expect($created['image'])->toBe($bookData['image']);
+
     $this->assertDatabaseHas('my_favorite_subject', [
         'user_id' => $user->id,
         'title' => $bookData['title'],
-        'image' => $created['image'],
+        'image' => $bookData['image'],
         'description' => $bookData['description'],
         'author' => $bookData['author'],
         'publication_year' => $bookData['publication_year'],
@@ -87,8 +84,8 @@ test('supports search, filtering, sorting, limit and caches responses', function
     $secondResponse->assertStatus(200)
         ->assertJsonPath('meta.cached', true);
 
-    // Author filter + sort + limit.
-    $thirdResponse = $this->getJson('/api/books?mine=0&author=Herbert&sort=publication_year&direction=desc&limit=1');
+    // Author filter + sort + limit (author filter should be case-insensitive).
+    $thirdResponse = $this->getJson('/api/books?mine=0&author=hErBeRt&sort=publication_year&direction=desc&limit=1');
     $thirdResponse->assertStatus(200)
         ->assertJsonCount(1, 'data');
 

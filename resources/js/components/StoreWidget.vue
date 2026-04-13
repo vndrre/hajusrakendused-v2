@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ShoppingCart } from 'lucide-vue-next';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 
 interface StoreProduct {
     id: number;
@@ -34,6 +34,10 @@ const showCartPopup = ref(false);
 
 const productQuantitySelection = reactive<Record<number, number>>({});
 const cart = ref<CartItem[]>([]);
+const cartLoadedFromServer = ref(false);
+const syncingCart = ref(false);
+const suppressCartSync = ref(false);
+let cartSyncTimeout: ReturnType<typeof setTimeout> | null = null;
 
 const checkoutForm = reactive({
     firstName: '',
@@ -70,6 +74,10 @@ const products = computed<StoreProduct[]>(() => {
         price: Number(product.price) || 0,
         quantity: Number(product.quantity) || 0,
     }));
+});
+
+const productById = computed(() => {
+    return new Map(products.value.map((product) => [product.id, product]));
 });
 
 const cartItemCount = computed(() => {
@@ -149,6 +157,122 @@ const decreaseCartQty = (productId: number): void => {
 
 const removeFromCart = (productId: number): void => {
     cart.value = cart.value.filter((item) => item.productId !== productId);
+};
+
+const applyCartPayload = (items: unknown): void => {
+    if (!Array.isArray(items)) {
+        return;
+    }
+
+    const normalizedCart: CartItem[] = [];
+
+    for (const rawItem of items) {
+        if (!rawItem || typeof rawItem !== 'object') {
+            continue;
+        }
+
+        const candidate = rawItem as Partial<CartItem>;
+        const productId = Number(candidate.productId);
+        const quantity = Number(candidate.quantity);
+        const stock = Number(candidate.stock);
+        if (!Number.isFinite(productId) || !Number.isFinite(quantity) || !Number.isFinite(stock) || stock <= 0) {
+            continue;
+        }
+
+        normalizedCart.push({
+            productId,
+            name: String(candidate.name ?? ''),
+            price: Number(candidate.price) || 0,
+            image: candidate.image ?? null,
+            quantity: Math.max(1, Math.min(Math.trunc(quantity), Math.trunc(stock))),
+            stock: Math.max(0, Math.trunc(stock)),
+        });
+    }
+
+    suppressCartSync.value = true;
+    cart.value = normalizedCart;
+    queueMicrotask(() => {
+        suppressCartSync.value = false;
+    });
+};
+
+const fetchCartFromServer = async (): Promise<void> => {
+    try {
+        const response = await axios.get('/api/store/cart');
+        applyCartPayload(response.data?.data ?? []);
+    } catch (error) {
+        console.error('Failed to load cart from server', error);
+    } finally {
+        cartLoadedFromServer.value = true;
+    }
+};
+
+const syncCartToServer = async (): Promise<void> => {
+    if (!cartLoadedFromServer.value || syncingCart.value) {
+        return;
+    }
+
+    syncingCart.value = true;
+
+    try {
+        const response = await axios.put('/api/store/cart', {
+            items: cart.value.map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+            })),
+        });
+
+        applyCartPayload(response.data?.data ?? []);
+    } catch (error) {
+        console.error('Failed to sync cart to server', error);
+    } finally {
+        syncingCart.value = false;
+    }
+};
+
+const syncCartWithProducts = (): void => {
+    const nextCart = cart.value
+        .map((item) => {
+            const product = productById.value.get(item.productId);
+            if (!product || product.quantity <= 0) {
+                return null;
+            }
+
+            return {
+                productId: item.productId,
+                name: product.name,
+                price: Number(product.price) || 0,
+                image: product.image ?? null,
+                quantity: Math.max(1, Math.min(item.quantity, product.quantity)),
+                stock: product.quantity,
+            };
+        })
+        .filter((item): item is CartItem => item !== null);
+
+    const changed = JSON.stringify(nextCart) !== JSON.stringify(cart.value);
+    if (!changed) {
+        return;
+    }
+
+    suppressCartSync.value = true;
+    cart.value = nextCart;
+    queueMicrotask(() => {
+        suppressCartSync.value = false;
+    });
+};
+
+const scheduleCartSync = (): void => {
+    if (!cartLoadedFromServer.value || suppressCartSync.value) {
+        return;
+    }
+
+    if (cartSyncTimeout) {
+        clearTimeout(cartSyncTimeout);
+    }
+
+    cartSyncTimeout = setTimeout(() => {
+        void syncCartToServer();
+    }, 250);
 };
 
 const resetCheckoutState = (): void => {
@@ -264,8 +388,33 @@ const payNow = async (): Promise<void> => {
 };
 
 onMounted(() => {
+    void fetchCartFromServer();
+    syncCartWithProducts();
     void syncStripeStatusFromUrl();
 });
+
+onBeforeUnmount(() => {
+    if (cartSyncTimeout) {
+        clearTimeout(cartSyncTimeout);
+        cartSyncTimeout = null;
+    }
+});
+
+watch(
+    cart,
+    () => {
+        scheduleCartSync();
+    },
+    { deep: true },
+);
+
+watch(
+    products,
+    () => {
+        syncCartWithProducts();
+    },
+    { deep: true },
+);
 
 const validateCheckoutForm = (): boolean => {
     checkoutErrors.firstName = undefined;

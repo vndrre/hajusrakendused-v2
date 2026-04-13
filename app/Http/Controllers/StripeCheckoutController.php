@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Stripe\CreateCheckoutSessionRequest;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -9,18 +10,9 @@ use Illuminate\Support\Facades\Http;
 
 class StripeCheckoutController extends Controller
 {
-    public function createCheckoutSession(Request $request): JsonResponse
+    public function createCheckoutSession(CreateCheckoutSessionRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'customer' => ['required', 'array'],
-            'customer.firstName' => ['required', 'string', 'max:100'],
-            'customer.lastName' => ['required', 'string', 'max:100'],
-            'customer.email' => ['required', 'string', 'email', 'max:255'],
-            'customer.phone' => ['required', 'string', 'max:30'],
-            'items' => ['required', 'array', 'min:1'],
-            'items.*.productId' => ['required', 'integer', 'min:1', 'exists:products,id'],
-            'items.*.quantity' => ['required', 'integer', 'min:1', 'max:20'],
-        ]);
+        $validated = $request->validated();
 
         $secretKey = config('stripe.secret_key');
         if (! is_string($secretKey) || $secretKey === '') {
