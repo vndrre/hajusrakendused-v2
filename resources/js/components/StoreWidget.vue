@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ShoppingCart } from 'lucide-vue-next';
+import storeCartRoutes from '@/routes/store/cart';
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 
 interface StoreProduct {
@@ -198,7 +199,7 @@ const applyCartPayload = (items: unknown): void => {
 
 const fetchCartFromServer = async (): Promise<void> => {
     try {
-        const response = await axios.get('/api/store/cart');
+        const response = await axios.get(storeCartRoutes.index.url());
         applyCartPayload(response.data?.data ?? []);
     } catch (error) {
         console.error('Failed to load cart from server', error);
@@ -215,7 +216,7 @@ const syncCartToServer = async (): Promise<void> => {
     syncingCart.value = true;
 
     try {
-        const response = await axios.put('/api/store/cart', {
+        const response = await axios.put(storeCartRoutes.sync.url(), {
             items: cart.value.map((item) => ({
                 productId: item.productId,
                 quantity: item.quantity,

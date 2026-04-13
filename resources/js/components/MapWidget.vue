@@ -2,6 +2,8 @@
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import L from 'leaflet';
+import markersRoutes from '@/routes/markers';
+import markersApiRoutes from '@/routes/markers/api';
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import 'leaflet/dist/leaflet.css';
 
@@ -167,7 +169,7 @@ const loadMarkers = async () => {
             updateMapMarkers();
         }
 
-        const response = await axios.get('/api/markers');
+        const response = await axios.get(markersApiRoutes.index.url());
         markers.value = response.data;
         updateMapMarkers();
 
@@ -287,7 +289,7 @@ const saveMarker = async () => {
     saving.value = true;
     try {
         if (formMode.value === 'edit' && editingMarkerId.value !== null) {
-            const response = await axios.put(`/api/markers/${editingMarkerId.value}`, newMarker.value);
+            const response = await axios.put(markersRoutes.update.url(editingMarkerId.value), newMarker.value);
 
             markers.value = markers.value.map((existing) => {
                 if (existing.id !== response.data.id) {
@@ -297,7 +299,7 @@ const saveMarker = async () => {
                 return response.data;
             });
         } else {
-            const response = await axios.post('/api/markers', newMarker.value);
+            const response = await axios.post(markersRoutes.store.url(), newMarker.value);
             markers.value.push(response.data);
         }
 
@@ -363,7 +365,7 @@ const confirmDeleteMarker = async (): Promise<void> => {
 
     deleteSubmitting.value = true;
     try {
-        await axios.delete(`/api/markers/${deleteTargetMarker.value.id}`);
+        await axios.delete(markersRoutes.destroy.url(deleteTargetMarker.value.id));
         markers.value = markers.value.filter((m) => m.id !== deleteTargetMarker.value?.id);
         updateMapMarkers();
         saveMarkersToCache(markers.value);

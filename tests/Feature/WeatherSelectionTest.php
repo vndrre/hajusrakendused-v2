@@ -14,7 +14,7 @@ test('can store weather selection for the authenticated user', function () {
         'country' => 'EE',
     ];
 
-    $response = $this->postJson('/api/weather/selection', $payload);
+    $response = $this->postJson('/weather/selection', $payload);
 
     $response->assertStatus(200)
         ->assertJsonFragment([
@@ -38,7 +38,7 @@ test('can store weather selection with null country', function () {
         'country' => null,
     ];
 
-    $response = $this->postJson('/api/weather/selection', $payload);
+    $response = $this->postJson('/weather/selection', $payload);
 
     $response->assertStatus(200)
         ->assertJsonFragment([
@@ -54,7 +54,7 @@ test('can store weather selection with null country', function () {
 });
 
 test('selection endpoint requires authentication', function () {
-    $response = $this->postJson('/api/weather/selection', [
+    $response = $this->postJson('/weather/selection', [
         'city' => 'Tallinn',
         'country' => 'EE',
     ]);

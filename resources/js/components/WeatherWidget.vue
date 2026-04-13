@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { usePage } from '@inertiajs/vue3';
     import axios from 'axios';
+    import weatherRoutes from '@/routes/weather';
     import { onMounted, ref } from 'vue';
 
     interface WeatherData {
@@ -116,7 +117,7 @@
 
     const persistSelectionToDb = async (city: string, country: string): Promise<void> => {
         try {
-            await axios.post('/api/weather/selection', {
+            await axios.post(weatherRoutes.selection.url(), {
                 city,
                 country: country.trim() ? country.trim() : null,
             });
@@ -160,7 +161,7 @@
                 return;
             }
 
-            const response = await axios.get('/api/weather', {
+            const response = await axios.get(weatherRoutes.api.url(), {
                 params: { city: normalizedCity, country: normalizedCountry },
             });
 

@@ -19,7 +19,7 @@ test('can create a book via JSON API', function (): void {
         'publication_year' => 1965,
     ];
 
-    $response = $this->postJson('/api/books', $bookData);
+    $response = $this->postJson('/books', $bookData);
     $created = $response->json();
 
     $response->assertStatus(201)
@@ -72,7 +72,7 @@ test('supports search, filtering, sorting, limit and caches responses', function
     ]);
 
     // Search + mine filter (q should be case-insensitive).
-    $firstResponse = $this->getJson('/api/books?mine=1&q=dUnE%20mEsSiAh&limit=10&sort=created_at&direction=desc');
+    $firstResponse = $this->getJson('/books?mine=1&q=dUnE%20mEsSiAh&limit=10&sort=created_at&direction=desc');
     $firstResponse->assertStatus(200)
         ->assertJsonPath('meta.total', 1)
         ->assertJsonPath('meta.cached', false)
@@ -80,12 +80,12 @@ test('supports search, filtering, sorting, limit and caches responses', function
         ->assertJsonPath('data.0.id', $bookB->id);
 
     // Same query again should be cached.
-    $secondResponse = $this->getJson('/api/books?mine=1&q=dUnE%20mEsSiAh&limit=10&sort=created_at&direction=desc');
+    $secondResponse = $this->getJson('/books?mine=1&q=dUnE%20mEsSiAh&limit=10&sort=created_at&direction=desc');
     $secondResponse->assertStatus(200)
         ->assertJsonPath('meta.cached', true);
 
     // Author filter + sort + limit (author filter should be case-insensitive).
-    $thirdResponse = $this->getJson('/api/books?mine=0&author=hErBeRt&sort=publication_year&direction=desc&limit=1');
+    $thirdResponse = $this->getJson('/books?mine=0&author=hErBeRt&sort=publication_year&direction=desc&limit=1');
     $thirdResponse->assertStatus(200)
         ->assertJsonCount(1, 'data');
 

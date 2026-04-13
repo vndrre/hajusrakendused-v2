@@ -18,16 +18,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 
     Route::get('weather', [WeatherController::class, 'show'])->name('weather.show');
-    Route::get('api/weather', [WeatherController::class, 'api'])->name('weather.api');
-    Route::post('api/weather/selection', [WeatherController::class, 'selection'])->name('weather.selection');
+    Route::get('weather/data', [WeatherController::class, 'api'])->name('weather.api');
+    Route::post('weather/selection', [WeatherController::class, 'selection'])->name('weather.selection');
     Route::get('map', [MarkerController::class, 'index'])->name('map.index');
     Route::get('store', [StoreController::class, 'index'])->name('store.index');
-    Route::get('api/store/cart', [StoreController::class, 'cartIndex'])->name('store.cart.index');
-    Route::put('api/store/cart', [StoreController::class, 'cartSync'])->name('store.cart.sync');
+    Route::get('store/cart', [StoreController::class, 'cartIndex'])->name('store.cart.index');
+    Route::put('store/cart', [StoreController::class, 'cartSync'])->name('store.cart.sync');
 
     Route::get('api', [BooksController::class, 'apiPage'])->name('api.page');
-    Route::get('api/books', [BooksController::class, 'apiIndex'])->name('books.api.index');
-    Route::post('api/books', [BooksController::class, 'apiStore'])->name('books.api.store');
+    Route::get('books', [BooksController::class, 'apiIndex'])->name('books.api.index');
+    Route::post('books', [BooksController::class, 'apiStore'])->name('books.api.store');
 
     Route::prefix('api/stripe')->group(function () {
         Route::post('checkout-session', [StripeCheckoutController::class, 'createCheckoutSession'])
@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('stripe.checkout-session-status');
     });
 
-    Route::prefix('api/markers')->group(function () {
+    Route::prefix('markers')->group(function () {
         Route::get('/', [MarkerController::class, 'apiIndex'])->name('markers.api.index');
         Route::post('/', [MarkerController::class, 'store'])->name('markers.store');
         Route::get('/{marker}', [MarkerController::class, 'show'])->name('markers.show');

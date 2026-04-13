@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
 * @see app/Http/Controllers/StripeCheckoutController.php:13
@@ -32,28 +32,6 @@ createCheckoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'pos
     url: createCheckoutSession.url(options),
     method: 'post',
 })
-
-/**
-* @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:13
-* @route '/api/stripe/checkout-session'
-*/
-const createCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: createCheckoutSession.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\StripeCheckoutController::createCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:13
-* @route '/api/stripe/checkout-session'
-*/
-createCheckoutSessionForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: createCheckoutSession.url(options),
-    method: 'post',
-})
-
-createCheckoutSession.form = createCheckoutSessionForm
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
@@ -98,43 +76,6 @@ verifyCheckoutSession.head = (options?: RouteQueryOptions): RouteDefinition<'hea
     url: verifyCheckoutSession.url(options),
     method: 'head',
 })
-
-/**
-* @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
-*/
-const verifyCheckoutSessionForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: verifyCheckoutSession.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
-*/
-verifyCheckoutSessionForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: verifyCheckoutSession.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StripeCheckoutController::verifyCheckoutSession
-* @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
-*/
-verifyCheckoutSessionForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: verifyCheckoutSession.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-verifyCheckoutSession.form = verifyCheckoutSessionForm
 
 const StripeCheckoutController = { createCheckoutSession, verifyCheckoutSession }
 

@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\StoreController::index
 * @see app/Http/Controllers/StoreController.php:17
@@ -44,46 +44,9 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \App\Http\Controllers\StoreController::index
-* @see app/Http/Controllers/StoreController.php:17
-* @route '/store'
-*/
-const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: index.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StoreController::index
-* @see app/Http/Controllers/StoreController.php:17
-* @route '/store'
-*/
-indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: index.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StoreController::index
-* @see app/Http/Controllers/StoreController.php:17
-* @route '/store'
-*/
-indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: index.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-index.form = indexForm
-
-/**
 * @see \App\Http\Controllers\StoreController::cartIndex
 * @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 export const cartIndex = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: cartIndex.url(options),
@@ -92,13 +55,13 @@ export const cartIndex = (options?: RouteQueryOptions): RouteDefinition<'get'> =
 
 cartIndex.definition = {
     methods: ["get","head"],
-    url: '/api/store/cart',
+    url: '/store/cart',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\StoreController::cartIndex
 * @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 cartIndex.url = (options?: RouteQueryOptions) => {
     return cartIndex.definition.url + queryParams(options)
@@ -107,7 +70,7 @@ cartIndex.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\StoreController::cartIndex
 * @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 cartIndex.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: cartIndex.url(options),
@@ -117,7 +80,7 @@ cartIndex.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 /**
 * @see \App\Http\Controllers\StoreController::cartIndex
 * @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 cartIndex.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: cartIndex.url(options),
@@ -125,46 +88,9 @@ cartIndex.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \App\Http\Controllers\StoreController::cartIndex
-* @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
-*/
-const cartIndexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: cartIndex.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StoreController::cartIndex
-* @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
-*/
-cartIndexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: cartIndex.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\StoreController::cartIndex
-* @see app/Http/Controllers/StoreController.php:30
-* @route '/api/store/cart'
-*/
-cartIndexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: cartIndex.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-cartIndex.form = cartIndexForm
-
-/**
 * @see \App\Http\Controllers\StoreController::cartSync
 * @see app/Http/Controllers/StoreController.php:37
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 export const cartSync = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: cartSync.url(options),
@@ -173,13 +99,13 @@ export const cartSync = (options?: RouteQueryOptions): RouteDefinition<'put'> =>
 
 cartSync.definition = {
     methods: ["put"],
-    url: '/api/store/cart',
+    url: '/store/cart',
 } satisfies RouteDefinition<["put"]>
 
 /**
 * @see \App\Http\Controllers\StoreController::cartSync
 * @see app/Http/Controllers/StoreController.php:37
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 cartSync.url = (options?: RouteQueryOptions) => {
     return cartSync.definition.url + queryParams(options)
@@ -188,44 +114,12 @@ cartSync.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\StoreController::cartSync
 * @see app/Http/Controllers/StoreController.php:37
-* @route '/api/store/cart'
+* @route '/store/cart'
 */
 cartSync.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: cartSync.url(options),
     method: 'put',
 })
-
-/**
-* @see \App\Http\Controllers\StoreController::cartSync
-* @see app/Http/Controllers/StoreController.php:37
-* @route '/api/store/cart'
-*/
-const cartSyncForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: cartSync.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'PUT',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\StoreController::cartSync
-* @see app/Http/Controllers/StoreController.php:37
-* @route '/api/store/cart'
-*/
-cartSyncForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: cartSync.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'PUT',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'post',
-})
-
-cartSync.form = cartSyncForm
 
 const StoreController = { index, cartIndex, cartSync }
 

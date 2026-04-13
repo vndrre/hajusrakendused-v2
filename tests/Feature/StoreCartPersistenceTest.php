@@ -21,7 +21,7 @@ it('persists cart items in database and returns them across requests', function 
     ]);
 
     $this->actingAs($user)
-        ->putJson('/api/store/cart', [
+        ->putJson('/store/cart', [
             'items' => [
                 ['productId' => $productA->id, 'quantity' => 3],
                 ['productId' => $productB->id, 'quantity' => 10], // should clamp to stock
@@ -39,7 +39,7 @@ it('persists cart items in database and returns them across requests', function 
     expect($mouseRow->quantity)->toBe(2);
 
     $this->actingAs($user)
-        ->getJson('/api/store/cart')
+        ->getJson('/store/cart')
         ->assertOk()
         ->assertJsonCount(2, 'data')
         ->assertJsonPath('data.0.productId', $productA->id)
@@ -53,13 +53,13 @@ it('isolates cart items per user', function (): void {
         'quantity' => 7,
     ]);
 
-    $this->actingAs($userA)->putJson('/api/store/cart', [
+    $this->actingAs($userA)->putJson('/store/cart', [
         'items' => [
             ['productId' => $product->id, 'quantity' => 2],
         ],
     ])->assertOk();
 
-    $this->actingAs($userB)->getJson('/api/store/cart')
+    $this->actingAs($userB)->getJson('/store/cart')
         ->assertOk()
         ->assertJsonCount(0, 'data');
 });

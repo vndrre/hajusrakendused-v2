@@ -16,10 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
         $middleware->validateCsrfTokens(except: [
-            'api/markers',
-            'api/markers/*',
-            'api/books',
-            'api/books/*',
+            'markers',
+            'markers/*',
+            'books',
+            'books/*',
+            'weather/data',
+            'weather/selection',
         ]);
 
         $middleware->web(append: [

@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\BooksController::apiPage
 * @see app/Http/Controllers/BooksController.php:18
@@ -44,46 +44,9 @@ apiPage.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \App\Http\Controllers\BooksController::apiPage
-* @see app/Http/Controllers/BooksController.php:18
-* @route '/api'
-*/
-const apiPageForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiPage.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\BooksController::apiPage
-* @see app/Http/Controllers/BooksController.php:18
-* @route '/api'
-*/
-apiPageForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiPage.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\BooksController::apiPage
-* @see app/Http/Controllers/BooksController.php:18
-* @route '/api'
-*/
-apiPageForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiPage.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-apiPage.form = apiPageForm
-
-/**
 * @see \App\Http\Controllers\BooksController::apiIndex
 * @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
+* @route '/books'
 */
 export const apiIndex = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: apiIndex.url(options),
@@ -92,13 +55,13 @@ export const apiIndex = (options?: RouteQueryOptions): RouteDefinition<'get'> =>
 
 apiIndex.definition = {
     methods: ["get","head"],
-    url: '/api/books',
+    url: '/books',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\BooksController::apiIndex
 * @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
+* @route '/books'
 */
 apiIndex.url = (options?: RouteQueryOptions) => {
     return apiIndex.definition.url + queryParams(options)
@@ -107,7 +70,7 @@ apiIndex.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\BooksController::apiIndex
 * @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
+* @route '/books'
 */
 apiIndex.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: apiIndex.url(options),
@@ -117,7 +80,7 @@ apiIndex.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 /**
 * @see \App\Http\Controllers\BooksController::apiIndex
 * @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
+* @route '/books'
 */
 apiIndex.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: apiIndex.url(options),
@@ -125,46 +88,9 @@ apiIndex.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see \App\Http\Controllers\BooksController::apiIndex
-* @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
-*/
-const apiIndexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiIndex.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\BooksController::apiIndex
-* @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
-*/
-apiIndexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiIndex.url(options),
-    method: 'get',
-})
-
-/**
-* @see \App\Http\Controllers\BooksController::apiIndex
-* @see app/Http/Controllers/BooksController.php:27
-* @route '/api/books'
-*/
-apiIndexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: apiIndex.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-apiIndex.form = apiIndexForm
-
-/**
 * @see \App\Http\Controllers\BooksController::apiStore
 * @see app/Http/Controllers/BooksController.php:128
-* @route '/api/books'
+* @route '/books'
 */
 export const apiStore = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: apiStore.url(options),
@@ -173,13 +99,13 @@ export const apiStore = (options?: RouteQueryOptions): RouteDefinition<'post'> =
 
 apiStore.definition = {
     methods: ["post"],
-    url: '/api/books',
+    url: '/books',
 } satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\BooksController::apiStore
 * @see app/Http/Controllers/BooksController.php:128
-* @route '/api/books'
+* @route '/books'
 */
 apiStore.url = (options?: RouteQueryOptions) => {
     return apiStore.definition.url + queryParams(options)
@@ -188,34 +114,12 @@ apiStore.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\BooksController::apiStore
 * @see app/Http/Controllers/BooksController.php:128
-* @route '/api/books'
+* @route '/books'
 */
 apiStore.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: apiStore.url(options),
     method: 'post',
 })
-
-/**
-* @see \App\Http\Controllers\BooksController::apiStore
-* @see app/Http/Controllers/BooksController.php:128
-* @route '/api/books'
-*/
-const apiStoreForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: apiStore.url(options),
-    method: 'post',
-})
-
-/**
-* @see \App\Http\Controllers\BooksController::apiStore
-* @see app/Http/Controllers/BooksController.php:128
-* @route '/api/books'
-*/
-apiStoreForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-    action: apiStore.url(options),
-    method: 'post',
-})
-
-apiStore.form = apiStoreForm
 
 const BooksController = { apiPage, apiIndex, apiStore }
 
