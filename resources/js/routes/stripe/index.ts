@@ -2,7 +2,7 @@ import { queryParams, type RouteQueryOptions, type RouteDefinition } from './../
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
 * @see app/Http/Controllers/StripeCheckoutController.php:13
-* @route '/api/stripe/checkout-session'
+* @route '/stripe/checkout-session'
 */
 export const checkoutSession = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: checkoutSession.url(options),
@@ -11,13 +11,13 @@ export const checkoutSession = (options?: RouteQueryOptions): RouteDefinition<'p
 
 checkoutSession.definition = {
     methods: ["post"],
-    url: '/api/stripe/checkout-session',
+    url: '/stripe/checkout-session',
 } satisfies RouteDefinition<["post"]>
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
 * @see app/Http/Controllers/StripeCheckoutController.php:13
-* @route '/api/stripe/checkout-session'
+* @route '/stripe/checkout-session'
 */
 checkoutSession.url = (options?: RouteQueryOptions) => {
     return checkoutSession.definition.url + queryParams(options)
@@ -26,7 +26,7 @@ checkoutSession.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSession
 * @see app/Http/Controllers/StripeCheckoutController.php:13
-* @route '/api/stripe/checkout-session'
+* @route '/stripe/checkout-session'
 */
 checkoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: checkoutSession.url(options),
@@ -36,7 +36,7 @@ checkoutSession.post = (options?: RouteQueryOptions): RouteDefinition<'post'> =>
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
 * @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
+* @route '/stripe/checkout-session-status'
 */
 export const checkoutSessionStatus = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: checkoutSessionStatus.url(options),
@@ -45,13 +45,13 @@ export const checkoutSessionStatus = (options?: RouteQueryOptions): RouteDefinit
 
 checkoutSessionStatus.definition = {
     methods: ["get","head"],
-    url: '/api/stripe/checkout-session-status',
+    url: '/stripe/checkout-session-status',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
 * @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
+* @route '/stripe/checkout-session-status'
 */
 checkoutSessionStatus.url = (options?: RouteQueryOptions) => {
     return checkoutSessionStatus.definition.url + queryParams(options)
@@ -60,7 +60,7 @@ checkoutSessionStatus.url = (options?: RouteQueryOptions) => {
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
 * @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
+* @route '/stripe/checkout-session-status'
 */
 checkoutSessionStatus.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: checkoutSessionStatus.url(options),
@@ -70,7 +70,7 @@ checkoutSessionStatus.get = (options?: RouteQueryOptions): RouteDefinition<'get'
 /**
 * @see \App\Http\Controllers\StripeCheckoutController::checkoutSessionStatus
 * @see app/Http/Controllers/StripeCheckoutController.php:114
-* @route '/api/stripe/checkout-session-status'
+* @route '/stripe/checkout-session-status'
 */
 checkoutSessionStatus.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: checkoutSessionStatus.url(options),

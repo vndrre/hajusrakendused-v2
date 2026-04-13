@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { ShoppingCart } from 'lucide-vue-next';
 import storeCartRoutes from '@/routes/store/cart';
+import stripeRoutes from '@/routes/stripe';
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 
 interface StoreProduct {
@@ -17,7 +18,7 @@ interface CartItem {
     productId: number;
     name: string;
     price: number;
-    image?: string | null;
+    image: string | null;
     quantity: number;
     stock: number;
 }
@@ -129,7 +130,7 @@ const addToCart = (product: StoreProduct): void => {
             productId: product.id,
             name: product.name,
             price: Number(product.price) || 0,
-            image: product.image,
+            image: product.image ?? null,
             quantity: requestedQty,
             stock: product.quantity,
         });
@@ -321,7 +322,7 @@ const syncStripeStatusFromUrl = async (): Promise<void> => {
         paymentMessage.value = 'Confirming payment...';
 
         try {
-            const response = await axios.get('/api/stripe/checkout-session-status', {
+            const response = await axios.get(stripeRoutes.checkoutSessionStatus.url(), {
                 params: { session_id: sessionId },
             });
 
@@ -366,7 +367,7 @@ const payNow = async (): Promise<void> => {
     paymentMessage.value = 'Creating Stripe checkout...';
 
     try {
-        const response = await axios.post('/api/stripe/checkout-session', {
+        const response = await axios.post(stripeRoutes.checkoutSession.url(), {
             customer: { ...checkoutForm },
             items: cart.value.map((item) => ({
                 productId: item.productId,

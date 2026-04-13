@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('books', [BooksController::class, 'apiIndex'])->name('books.api.index');
     Route::post('books', [BooksController::class, 'apiStore'])->name('books.api.store');
 
-    Route::prefix('api/stripe')->group(function () {
+    Route::prefix('stripe')->group(function () {
         Route::post('checkout-session', [StripeCheckoutController::class, 'createCheckoutSession'])
             ->name('stripe.checkout-session');
         Route::get('checkout-session-status', [StripeCheckoutController::class, 'verifyCheckoutSession'])

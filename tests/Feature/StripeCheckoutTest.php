@@ -42,7 +42,7 @@ it('creates a Stripe checkout session', function (): void {
         ]);
     });
 
-    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+    $this->actingAs($user)->postJson('/stripe/checkout-session', [
         'customer' => [
             'firstName' => 'Test',
             'lastName' => 'Customer',
@@ -74,7 +74,7 @@ it('verifies a Stripe checkout session payment status', function (): void {
         ]),
     ]);
 
-    $this->actingAs($user)->getJson('/api/stripe/checkout-session-status?session_id=cs_test_123')
+    $this->actingAs($user)->getJson('/stripe/checkout-session-status?session_id=cs_test_123')
         ->assertOk()
         ->assertJson([
             'paid' => true,
@@ -89,7 +89,7 @@ it('returns an error when Stripe secret key is missing', function (): void {
     $user = User::factory()->create();
     $product = Product::factory()->create();
 
-    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+    $this->actingAs($user)->postJson('/stripe/checkout-session', [
         'customer' => [
             'firstName' => 'Test',
             'lastName' => 'Customer',
@@ -110,7 +110,7 @@ it('rejects checkout with invalid customer email', function (): void {
     $user = User::factory()->create();
     $product = Product::factory()->create();
 
-    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+    $this->actingAs($user)->postJson('/stripe/checkout-session', [
         'customer' => [
             'firstName' => 'Test',
             'lastName' => 'Customer',
@@ -131,7 +131,7 @@ it('rejects checkout with invalid customer phone', function (): void {
     $user = User::factory()->create();
     $product = Product::factory()->create();
 
-    $this->actingAs($user)->postJson('/api/stripe/checkout-session', [
+    $this->actingAs($user)->postJson('/stripe/checkout-session', [
         'customer' => [
             'firstName' => 'Test',
             'lastName' => 'Customer',
