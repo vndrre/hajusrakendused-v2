@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MarkerController;
@@ -42,6 +43,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{marker}', [MarkerController::class, 'show'])->name('markers.show');
         Route::put('/{marker}', [MarkerController::class, 'update'])->name('markers.update');
         Route::delete('/{marker}', [MarkerController::class, 'destroy'])->name('markers.destroy');
+    });
+
+    Route::prefix('areas')->group(function () {
+        Route::get('/', [AreaController::class, 'index'])->name('areas.api.index');
+        Route::post('/', [AreaController::class, 'store'])->name('areas.store');
+        Route::get('/{area}', [AreaController::class, 'show'])->name('areas.show');
+        Route::put('/{area}', [AreaController::class, 'update'])->name('areas.update');
+        Route::delete('/{area}', [AreaController::class, 'destroy'])->name('areas.destroy');
     });
 
     Route::get('blog', [PostController::class, 'index'])->name('blog.index');

@@ -222,7 +222,7 @@ store.form = storeForm
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-export const show = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -237,7 +237,7 @@ show.definition = {
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-show.url = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { marker: args }
     }
@@ -270,7 +270,7 @@ show.url = (args: { marker: string | number | { id: string | number } } | [marke
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-show.get = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -280,7 +280,7 @@ show.get = (args: { marker: string | number | { id: string | number } } | [marke
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-show.head = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -290,7 +290,7 @@ show.head = (args: { marker: string | number | { id: string | number } } | [mark
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-const showForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+const showForm = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -300,7 +300,7 @@ const showForm = (args: { marker: string | number | { id: string | number } } | 
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-showForm.get = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.get = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -310,7 +310,7 @@ showForm.get = (args: { marker: string | number | { id: string | number } } | [m
 * @see app/Http/Controllers/MarkerController.php:65
 * @route '/markers/{marker}'
 */
-showForm.head = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.head = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'HEAD',
@@ -327,7 +327,7 @@ show.form = showForm
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
 */
-export const update = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+export const update = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -342,7 +342,7 @@ update.definition = {
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
 */
-update.url = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+update.url = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { marker: args }
     }
@@ -375,7 +375,7 @@ update.url = (args: { marker: string | number | { id: string | number } } | [mar
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
 */
-update.put = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
+update.put = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
 })
@@ -385,7 +385,7 @@ update.put = (args: { marker: string | number | { id: string | number } } | [mar
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
 */
-const updateForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const updateForm = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: update.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'PUT',
@@ -400,7 +400,7 @@ const updateForm = (args: { marker: string | number | { id: string | number } } 
 * @see app/Http/Controllers/MarkerController.php:76
 * @route '/markers/{marker}'
 */
-updateForm.put = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+updateForm.put = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: update.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'PUT',
@@ -417,7 +417,7 @@ update.form = updateForm
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
 */
-export const destroy = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -432,7 +432,7 @@ destroy.definition = {
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
 */
-destroy.url = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { marker: args }
     }
@@ -465,7 +465,7 @@ destroy.url = (args: { marker: string | number | { id: string | number } } | [ma
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
 */
-destroy.delete = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -475,7 +475,7 @@ destroy.delete = (args: { marker: string | number | { id: string | number } } | 
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
 */
-const destroyForm = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const destroyForm = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: destroy.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'DELETE',
@@ -490,7 +490,7 @@ const destroyForm = (args: { marker: string | number | { id: string | number } }
 * @see app/Http/Controllers/MarkerController.php:102
 * @route '/markers/{marker}'
 */
-destroyForm.delete = (args: { marker: string | number | { id: string | number } } | [marker: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+destroyForm.delete = (args: { marker: number | { id: number } } | [marker: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: destroy.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'DELETE',
